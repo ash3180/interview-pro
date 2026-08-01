@@ -36,8 +36,6 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization", "Cookie"]
 }))
 
-app.options("*", cors())
-
 app.use(async (req, res, next) => {
     try {
         await connectToDB()
