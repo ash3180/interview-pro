@@ -26,7 +26,8 @@ app.use(cors({
         if (
             allowedOrigins.includes(normalizedOrigin) || 
             allowedOrigins.some(o => normalizedOrigin.startsWith(o)) ||
-            normalizedOrigin.endsWith(".netlify.app")
+            normalizedOrigin.endsWith(".netlify.app") ||
+            normalizedOrigin.endsWith(".vercel.app")
         ) {
             callback(null, true)
         } else {
