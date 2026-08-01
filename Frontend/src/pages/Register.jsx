@@ -20,7 +20,8 @@ const Register = () => {
       await register(username, email, password)
       navigate('/dashboard')
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to create account.')
+      console.error(err)
+      setError(err.response?.data?.message || err.message || 'Failed to create account. Please check your credentials.')
     } finally {
       setLoading(false)
     }

@@ -44,7 +44,10 @@ async function registerUserController(req, res) {
         })
     } catch (err) {
         console.error("Register Error:", err)
-        res.status(500).json({ message: "Server error during registration." })
+        if (err.code === 11000) {
+            return res.status(400).json({ message: "An account with this email or username already exists." })
+        }
+        res.status(500).json({ message: err.message || "Server error during registration." })
     }
 }
 
