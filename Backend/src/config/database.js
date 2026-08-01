@@ -9,7 +9,7 @@ async function connectToDB() {
     }
 
     try {
-        if (!process.env.VERCEL) {
+        if (!process.env.VERCEL && !process.env.RENDER) {
             try {
                 dns.setServers(["8.8.8.8", "1.1.1.1"])
             } catch (dnsErr) {
@@ -17,12 +17,13 @@ async function connectToDB() {
             }
         }
 
-        if (!process.env.MONGO_URI) {
-            console.error("MONGO_URI is missing in environment variables!")
+        const mongoUri = process.env.MONGO_URI || process.env.MONGODB_URI
+        if (!mongoUri) {
+            console.error("MONGO_URI (or MONGODB_URI) is missing in environment variables!")
             return
         }
 
-        await mongoose.connect(process.env.MONGO_URI, {
+        await mongoose.connect(mongoUri, {
             serverSelectionTimeoutMS: 5000
         })
 

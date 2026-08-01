@@ -5,10 +5,14 @@ const connectToDB = require("./config/database")
 
 const app = express()
 
+const clientUrlOrigins = process.env.CLIENT_URL 
+    ? process.env.CLIENT_URL.split(",").map(url => url.trim().replace(/\/+$/, ""))
+    : []
+
 const allowedOrigins = [
     "http://localhost:5173",
     "http://localhost:3000",
-    process.env.CLIENT_URL
+    ...clientUrlOrigins
 ].filter(Boolean)
 
 app.use(express.json({ limit: "10mb" }))
@@ -17,7 +21,13 @@ app.use(cookieParser())
 
 app.use(cors({
     origin: function (origin, callback) {
-        if (!origin || allowedOrigins.includes(origin) || allowedOrigins.some(o => origin.startsWith(o))) {
+        if (!origin) return callback(null, true);
+        const normalizedOrigin = origin.replace(/\/+$/, "");
+        if (
+            allowedOrigins.includes(normalizedOrigin) || 
+            allowedOrigins.some(o => normalizedOrigin.startsWith(o)) ||
+            normalizedOrigin.endsWith(".netlify.app")
+        ) {
             callback(null, true)
         } else {
             callback(null, true)
