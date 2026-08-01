@@ -5,14 +5,6 @@ const connectToDB = require("./config/database")
 
 const app = express()
 
-// Normalize Netlify Serverless Functions URL path
-app.use((req, res, next) => {
-    if (req.url.startsWith("/.netlify/functions/api")) {
-        req.url = req.url.replace("/.netlify/functions/api", "") || "/"
-    }
-    next()
-})
-
 const allowedOrigins = [
     "http://localhost:5173",
     "http://localhost:3000",
@@ -31,9 +23,7 @@ app.use(cors({
             callback(null, true)
         }
     },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cookie"]
+    credentials: true
 }))
 
 app.use(async (req, res, next) => {
