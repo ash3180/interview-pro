@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext, useRef } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { InterviewContext } from '../context/InterviewContext'
 import { Sparkles, Upload, FileText, Briefcase, ArrowRight, Clock, Award, History, ChevronRight } from 'lucide-react'
 
@@ -11,10 +11,15 @@ const Dashboard = () => {
   const [localError, setLocalError] = useState('')
   const fileInputRef = useRef()
   const navigate = useNavigate()
+  const location = useLocation()
 
   useEffect(() => {
     fetchReports()
-  }, [])
+    if (location.state?.jobDescription) {
+      setJobDescription(location.state.jobDescription)
+    }
+  }, [location.state])
+
 
   const handleFileChange = (e) => {
     const file = e.target.files[0]

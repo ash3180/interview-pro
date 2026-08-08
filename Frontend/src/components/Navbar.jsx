@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
-import { Sparkles, LogOut, User, LayoutDashboard } from 'lucide-react'
+import { Sparkles, LogOut, User, LayoutDashboard, FileText } from 'lucide-react'
 
 const Navbar = () => {
   const { user, logout } = useContext(AuthContext)
@@ -30,6 +30,9 @@ const Navbar = () => {
               <Link to="/dashboard" className="btn-secondary" style={{ textDecoration: 'none', fontSize: '0.9rem' }}>
                 <LayoutDashboard size={16} /> Dashboard
               </Link>
+              <Link to="/ats-checker" className="btn-secondary" style={{ textDecoration: 'none', fontSize: '0.9rem', color: '#06b6d4', borderColor: 'rgba(6, 182, 212, 0.4)' }}>
+                <FileText size={16} /> ATS Scanner
+              </Link>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px', background: 'rgba(255, 255, 255, 0.05)', padding: '6px 14px', borderRadius: '20px', border: '1px solid var(--border-glass)' }}>
                 <User size={16} color="#6366f1" />
                 <span style={{ fontSize: '0.9rem', fontWeight: 500 }}>{user.username}</span>
@@ -38,6 +41,7 @@ const Navbar = () => {
                 <LogOut size={16} />
               </button>
             </>
+
           ) : (
             <>
               <Link to="/login" className="btn-secondary" style={{ textDecoration: 'none' }}>Sign In</Link>
